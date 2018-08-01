@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
 import { LoadingController } from '@ionic/angular';
 import { RestApiService } from '../rest-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -9,9 +9,16 @@ import { RestApiService } from '../rest-api.service';
   styleUrls: ['list.page.scss']
 })
 export class ListPage implements OnInit {
+
   classrooms: any;
 
-  constructor(public api: RestApiService, public loadingController: LoadingController) {
+  constructor(public api: RestApiService,
+    public loadingController: LoadingController,
+    public router: Router) { }
+
+  ngOnInit() {
+    console.log("List page");
+    this.getClassrooms();
   }
 
   async getClassrooms() {
@@ -30,7 +37,11 @@ export class ListPage implements OnInit {
       });
   }
 
-  ngOnInit() {
-    this.getClassrooms();
+  showDetail(id) {
+    this.router.navigate(['/detail', JSON.stringify(id)]);
   }
+  // add back when alpha.4 is out
+  // navigate(item) {
+  //   this.router.navigate(['/list', JSON.stringify(item)]);
+  // }
 }

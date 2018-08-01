@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { LoadingController } from '@ionic/angular';
 import { RestApiService } from '../rest-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,6 +26,13 @@ export class EditPage implements OnInit {
     });
   }
 
+  ngOnInit() {
+  }
+
+  get studentData() {
+    return <FormArray>this.classroomForm.get('students');
+  }
+
   async getClassroom(id) {
     const loading = await this.loadingController.create({
       content: 'Loading'
@@ -51,12 +57,6 @@ export class EditPage implements OnInit {
     });
   }
 
-  createStudent(): FormGroup {
-    return this.formBuilder.group({
-      student_name: ''
-    });
-  }
-
   addBlankStudent(): void {
     this.students = this.classroomForm.get('students') as FormArray;
     this.students.push(this.createStudent());
@@ -66,17 +66,20 @@ export class EditPage implements OnInit {
     control.removeAt(index)
   }
 
+  createStudent(): FormGroup {
+    return this.formBuilder.group({
+      student_name: ''
+    });
+  }
+
   async updateClassroom() {
     await this.api.updateClassroom(this.route.snapshot.paramMap.get('id'), this.classroomForm.value)
       .subscribe(res => {
         let id = res['id'];
-        this.router.navigate(['/detail', JSON.stringify(id)]);
+        this.router.navigate(['/detail/' + id]);
       }, (err) => {
         console.log(err);
       });
-  }
-
-  ngOnInit() {
   }
 
 }

@@ -23,11 +23,14 @@ const routes: Routes = [
     path: 'edit/:id',
     loadChildren: './edit/edit.module#EditPageModule'
   },
-  { path: 'create', loadChildren: './create/create.module#CreatePageModule' }
+  {
+    path: 'create',
+    loadChildren: './create/create.module#CreatePageModule'
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
